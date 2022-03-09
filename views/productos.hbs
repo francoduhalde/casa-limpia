@@ -1,0 +1,68 @@
+
+
+<div class="container">
+    <div class="text-center m-5">
+        <hr>
+        <h1>{{titulo}}</h1>
+        <hr>
+    </div>
+</div>
+
+<div class="container">
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+<div class="carousel-inner">
+    <div class="carousel-item active">
+        <img src="https://depor.com/resizer/XW_kNqwjXx84HJXzDvB0HQbw7OI=/580x330/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/BSF6FZPAJVDYHI3EDC5L3FO7VU.jpg" class="d-block w-100" alt="Messi">
+    </div>
+    <div class="carousel-item">
+        <img src="https://depor.com/resizer/XW_kNqwjXx84HJXzDvB0HQbw7OI=/580x330/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/BSF6FZPAJVDYHI3EDC5L3FO7VU.jpg" class="d-block w-100" alt="Messi">
+    </div>
+    <div class="carousel-item">
+        <img src="https://depor.com/resizer/XW_kNqwjXx84HJXzDvB0HQbw7OI=/580x330/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/BSF6FZPAJVDYHI3EDC5L3FO7VU.jpg" class="d-block w-100" alt="Messi">
+    </div>
+</div>
+<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+</button>
+<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+</button>
+</div>
+</div>
+<div>
+    <div class="container">
+        <div class="text-center m-5">
+            <hr>
+            <h1>lista de productos</h1>
+            <hr>
+        </div>
+    </div>
+    <table class="table table-striped" id="mytable">
+        <thead>
+            <tr>
+                <th>producto id</th>
+                <th>nombre producto</th>
+                <th>precio producto</th>
+                <th>descripcion producto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each results}}
+            <tr>
+                <td>{{id_producto}}</td>
+                <td>{{producto_nombre}}</td>
+                <td>{{producto_precio}}</td>
+                <td>{{producto_descripcion}}</td>
+                <td>
+                    <a href="javascript:void(0)"; class="btn btn-info edit" data-id="{{id_producto}}" data-producto-nombre"{{producto_nombre}}" data-producto-precio"{{producto_precio}}>Edictar</a>
+                    <a href="javascript:void(0)"; class="btn btn-info delete" data-id="{{id_producto}}">eliminar</a>
+
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+
+    </table>
+</div>
