@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 require('dotenv').config();
-const Port = process.env.Port
+const PORT = process.env.PORT
 const path = require('path');
 const hbs = require('hbs');
 const mysql = require('mysql2');
@@ -161,12 +161,12 @@ app.get('/administracion', (req, res) =>{
     res.render("administracion",{titulo: 'Bienvenido Administrador'})
 });
 
-app.listen(Port, () =>{
-    console.log(`Servidor está trabajando en el Puerto ${Port}`);
+app.listen(PORT, () =>{
+    console.log(`Servidor está trabajando en el Puerto ${PORT}`);
 });
 
 app.on('error', (err) =>{
-    console.log(`Error en la ejecución del Servidor ${error}`);
+    console.log(`Error en la ejecución del Servidor ${PORT}`);
 })
 
 
