@@ -1,25 +1,26 @@
 
 const express = require('express');
 const app = express();
-const Port = 3000 || 8080;
+require('dotenv').config();
+const Port = process.env.Port || 8081
 const path = require('path');
 const hbs = require('hbs');
 const mysql = require('mysql2');
 const { createConnection } = require('net');
 //creamos la conexion
 
-const conexion =mysql.createConnection({
+/* const conexion =mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "4240494684",
     database: "quimica_cem2"
-})
+}); */
 //conectamos a la DB
-conexion.connect((error)=>{
+/* conexion.connect((error)=>{
     if(error) throw error;
     console.log("conexion a la data base exitosa")
 });
-
+ */
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname, 'public')));
