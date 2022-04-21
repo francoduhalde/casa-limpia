@@ -9,18 +9,18 @@ const mysql = require('mysql2');
 const { createConnection } = require('net');
 //creamos la conexion
 
-/* const conexion =mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "4240494684",
-    database: "quimica_cem2"
-}); */
+const conexion =mysql.createConnection({
+    host: "us-cdbr-east-05.cleardb.net",
+    user: "b2058b83e945bc",
+    password: "91d7ce3f",
+    database: "heroku_e9c24ed0d92fc0a"
+});
 //conectamos a la DB
-/* conexion.connect((error)=>{
+conexion.connect((error)=>{
     if(error) throw error;
     console.log("conexion a la data base exitosa")
 });
- */
+
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname, 'public')));
