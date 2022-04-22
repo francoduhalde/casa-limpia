@@ -25,10 +25,12 @@ conexion.connect((error)=>{
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use("/assets", express.static(__dirname + "/public"));
 
 //Configuramos el Motor de Plantillas
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
+app.set('public', path.join(__dirname, 'public'));
 hbs.registerPartials(path.join(__dirname, 'views/partials'));
 
 
@@ -37,11 +39,6 @@ app.get('/', (req, res) =>{
     res.render('index', {titulo: 'Bienvenidos a la App'})
 });
 
-app.get('/formulario', (req, res) =>{
-    res.render('formulario', {titulo: 'Formulario para Completar'})
-});
-
-
 app.post('/formulario', (req, res) =>{
 
     /*  res.json({
@@ -49,13 +46,13 @@ app.post('/formulario', (req, res) =>{
     }); */
 
     //Desestructuración de las variables
-    const { nombre, precio, descripcion } = req.body;
+    const { nombre, precio, descripcion, foto_url } = req.body;
         
     if(nombre == "" || precio == ""){
         
         let validacion = 'Faltan datos para guardar el Producto';
         
-        res.render('formulario', {
+        res.render('administracion', {
             titulo: 'Formulario para Completar',
             validacion
         });
@@ -70,19 +67,15 @@ app.post('/formulario', (req, res) =>{
         let data= {
             producto_nombre:nombre,
             producto_precio:precio,
-            producto_descripcion:descripcion
+            producto_descripcion:descripcion,
+            producto_foto_url:foto_url
         }
 
         let sql = 'Insert into productoss set ?';
         conexion.query(sql,data,(error, results)=>{
             if(error) throw error;
-            res.render('productos',{
-                titulo: 'Productos',
-            });
+            res.redirect('/administracion');
         })
-        res.render('productos', {
-            titulo: 'Productos',
-        }); 
     }
 });
 
@@ -105,23 +98,17 @@ app.post('/delete', (req,res)=>{
     let sql = "DELETE FROM productoss WHERE id_producto="+req.body.id_producto;
     conexion.query(sql,(error,results)=>{
         if(error) throw error;
-        res.render('productos', {
-            titulo: 'Productos',
-            results:results,
-        });
+        res.redirect('/administracion');
     });
 
 });
 
 app.post('/update',(req,res)=>{
     let sql= "UPDATE productoss SET producto_nombre='"+req.body.producto_nombre+
-    "', producto_precio='"+ req.body.producto_precio+"' WHERE id_producto="+ req.body.id_producto;
+    "', producto_precio='"+ req.body.producto_precio+"', producto_foto_url='"+ req.body.producto_foto_url+"' WHERE id_producto="+ req.body.id_producto;
     conexion.query(sql,(error,results)=>{
         if(error) throw error;
-        res.render('productos', {
-            titulo: 'Productos',
-            results:results,
-        });
+        res.redirect('/administracion');
     });
 
 
@@ -132,13 +119,27 @@ app.post('/update',(req,res)=>{
 app.get('/contacto', (req, res) =>{
     res.render('contacto', {titulo: 'Escríbenos'})
 });
+app.get('/login', (req, res) =>{
+    res.render('login')
+});
+app.post('/login', (req, res) =>{
+
+    //Desestructuración de las variables
+    const { usuario, contraseña} = req.body;
+        
+    if(usuario == "usuario" & contraseña == "contraseña"){
+        
+    res.redirect('/administracion');
+    }
+});
+
 
 app.post('/contacto', (req, res) =>{
 
     //Desestructuración de las variables
-    const { nombre, email } = req.body;
+    const { nombre, email, telefono } = req.body;
         
-    if(nombre == "" || email == ""){
+    if(nombre == "" || email == ""||telefono==""){
         
         let validacion = 'Faltan tus datos';
         
@@ -151,15 +152,30 @@ app.post('/contacto', (req, res) =>{
 
         console.log(nombre);
         console.log(email);
+        console.log(telefono);
+        let data= {
+            nombre:nombre,
+            email:email,
+            telefono:telefono
+        }
 
-        res.render('index', {
-            titulo: 'Bienvenidos a la App',
-        }); 
+        let sql = 'Insert into contactos set ?';
+        conexion.query(sql,data,(error, results)=>{
+            if(error) throw error;
+            res.redirect('/');
+        })
     }
 });
 
 app.get('/administracion', (req, res) =>{
-    res.render("administracion",{titulo: 'Bienvenido Administrador'})
+    let sql = 'Select * from productoss';
+    conexion.query(sql,(error,results)=>{
+        if(error) throw error;
+        res.render('administracion', {
+            titulo: 'Bienvenido Administrador',
+            results:results,
+        });
+    });
 });
 
 app.listen(PORT, () =>{

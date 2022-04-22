@@ -1,9 +1,153 @@
-
-
 <div class="container">
-    <h1>{{titulo}}</h1>
-    <p>Estamos trabajando con {{titulo}}</p>
+
+    <div class="text-center m-5">
+        <hr>
+        <h1>Agregue productos</h1>
+        <hr>
+    </div>
+
+    <div class="row">
+        <form action="/formulario" method="post">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Nombre producto</label>
+                <input type="text" class="form-control" name="nombre" placeholder="Nombre">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Precio</label>
+                <input type="number" class="form-control" name="precio" placeholder="Producto">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Descripcion del producto</label>
+                <input type="text" class="form-control" name="descripcion" placeholder="Descripción">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Link foto del producto</label>
+                <input type="text" class="form-control" name="foto_url" placeholder="url">
+            </div>
+            <div class="mb-3 text-center">
+                <input type="submit" class="button btn-primary w-50 p-2" value="Enviar Datos">
+            </div>
+        </form>
+
+        <div class="text-center validacion">
+            <h2 class="text-danger">
+                {{validacion}}
+            </h2>
+        </div>
+
+    </div>
+    
+
+
+    <table class="table table-striped" id="mytable">
+        <thead>
+            <tr>
+                <th>producto id</th>
+                <th>nombre producto</th>
+                <th>precio producto</th>
+                <th>descripcion producto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each results}}
+            <tr>
+                <td>{{id_producto}}</td>
+                <td>{{producto_nombre}}</td>
+                <td>{{producto_precio}}</td>
+                <td>{{producto_descripcion}}</td>
+                <td>
+                    <a href="javascript:void(0);" class="btn btn-info edit" data-id="{{id_producto}}" data-producto-nombre="{{producto_nombre}}" data-producto-precio="{{producto_precio}}">Editar</a>
+                    <a href="javascript:void(0);" class="btn btn-info delete" data-id="{{id_producto}}">Eliminar</a>
+
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+
+    </table>
+</div>
+<form action="/update" method="post">
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Editar Producto </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" data-bs-target="#my-modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <div class="form-group mt-3">
+                    <input type="text" name="producto_nombre" class=" form-control producto_nombre" placeholder=" Producto Nombre" required>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="text" name="producto_precio" class=" form-control precio" placeholder="Precio" required>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="text" name="producto_foto_url" class=" form-control producto_foto_url" placeholder=" Producto foto url" required>
+                </div>
+                <div class="modal-footer mt-3">
+                <input type="hidden" name="id_producto" class="id_producto">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" data-bs-target="#my-modal" aria-label="Close"></button>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+                </div>
+                </div>
+            </div>
+            </div>
 </div>
 
+</form>
 
+
+{{!-- Modal delete --}}
+
+        <form id="add-row-form" action="/delete" method="post">
+            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">Borrar Producto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" data-bs-target="#my-modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <strong>¿Estás seguro de borrar este elemento?</strong>
+                    </div>
+                    <div class="modal-footer">
+                    <input type="hidden" name="id_producto" class="form-control id_producto2" required>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" data-bs-target="#my-modal" aria-label="Close"></button>
+                        <button type="submit" class="btn btn-success">Eliminar</button>
+                    </div>
+                        </div>
+                </div>
+            </div>
+        </form>
+
+
+
+
+<script src="/assets/js/jquery-3.3.1.js"></script>
+<script src="/assets/js/bootstrap.js"></script>
+
+<script>
+$(document).ready(function(){
+    //Mostrar datos al modal para editar registro
+    $('#mytable').on('click', '.edit', function(){
+        let id_producto = $(this).data('id');
+        let producto_nombre = $(this).data('producto_nombre');
+        let producto_precio = $(this).data('producto_precio');
+        let producto_foto_url = $(this).data('producto_foto_url');
+        $('#EditModal').modal('show');
+        $('.producto_nombre').val(producto_nombre);
+        $('.precio').val(producto_precio);
+        $('.producto_foto_url').val(producto_foto_url);
+        $('.id_producto').val(id_producto);
+    })
+    // Modal DELETE     
+    $('#mytable').on('click', '.delete', function(){
+        let id_producto = $(this).data('id');
+        $('#DeleteModal').modal('show');
+        $('.id_producto2').val(id_producto);
+
+    })
+})
+
+</script>
 
