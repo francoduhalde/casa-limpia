@@ -130,6 +130,8 @@ app.post('/login', (req, res) =>{
     if(usuario == "usuario" & contraseña == "contraseña"){
         
     res.redirect('/administracion');
+    }else{
+        res.redirect('/login');
     }
 });
 
